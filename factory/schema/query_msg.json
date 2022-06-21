@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "description": "Queries",
+  "anyOf": [
+    {
+      "description": "lists all offspring whose owner is the given address.",
+      "type": "object",
+      "required": [
+        "list_my_offspring"
+      ],
+      "properties": {
+        "list_my_offspring": {
+          "type": "object",
+          "required": [
+            "address",
+            "viewing_key"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/HumanAddr"
+            },
+            "filter": {
+              "description": "optional filter for only active or inactive offspring.  If not specified, lists all",
+              "default": null,
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/FilterTypes"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "page_size": {
+              "description": "optional number of offspring to return in this page (applies to both active and inactive). Default: DEFAULT_PAGE_SIZE",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_page": {
+              "description": "start page for the offsprings returned and listed (applies to both active and inactive). Default: 0",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "viewing_key": {
+              "description": "viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "lists all active offspring in reverse chronological order",
+      "type": "object",
+      "required": [
+        "list_active_offspring"
+      ],
+      "properties": {
+        "list_active_offspring": {
+          "type": "object",
+          "properties": {
+            "page_size": {
+              "description": "optional number of offspring to return in this page. Default: DEFAULT_PAGE_SIZE",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_page": {
+              "description": "start page for the offsprings returned and listed. Default: 0",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "lists inactive offspring in reverse chronological order.",
+      "type": "object",
+      "required": [
+        "list_inactive_offspring"
+      ],
+      "properties": {
+        "list_inactive_offspring": {
+          "type": "object",
+          "properties": {
+            "page_size": {
+              "description": "optional number of offspring to return in this page. Default: DEFAULT_PAGE_SIZE",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_page": {
+              "description": "start page for the offsprings returned and listed. Default: 0",
+              "default": null,
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "authenticates the supplied address/viewing key. This should be called by offspring.",
+      "type": "object",
+      "required": [
+        "is_key_valid"
+      ],
+      "properties": {
+        "is_key_valid": {
+          "type": "object",
+          "required": [
+            "address",
+            "viewing_key"
+          ],
+          "properties": {
+            "address": {
+              "description": "address whose viewing key is being authenticated",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "viewing_key": {
+              "description": "viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "FilterTypes": {
+      "description": "the filter types when viewing an address' offspring",
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "all"
+      ]
+    },
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
+}
